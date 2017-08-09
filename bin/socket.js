@@ -28,7 +28,7 @@ io.on('connection', function(socket){
 
     socket.on('disconnect', function(){
         delete tomb[socket.nickname];
-        console.log('user disconnected');
+        console.log(socket.nickname+' disconnected');
     });
 
     socket.on('shoot',function (data) {
