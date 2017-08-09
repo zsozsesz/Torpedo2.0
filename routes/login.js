@@ -11,7 +11,7 @@ router.post('/', function(req, res, next) {
     var x = req.body;
     user.nickname=x.input;
     user.szobanev=x.input2;
-    var x = user.roompush(user.szobanev);
+    var x = user.roompush(user.szobanev,user.nickname);
 
     if(x==null){
         res.redirect('/');

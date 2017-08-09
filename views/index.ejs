@@ -11,16 +11,13 @@
       <input type="text" id="input">
       <input type="text" id="input2">
       <button onclick="Append()">Request data</button>
+
       <p id="2"></p>
     </div>
 
   <p id="demo"></p>
     <script>
-        var socket  = io.connect('http://localhost:3000');
-
-
-
-
+        var socket  = io.connect('http://81.183.46.245:3000');
 
         function Append() {
             var x=document.getElementById('input').value;
@@ -31,7 +28,8 @@
             }
 
             socket.emit('shoot',data)
-        }
+        };
+
         socket.on('shootres',function (data) {
             if(data.hiba){
                 document.getElementById('2').innerHTML=data.hiba;
@@ -39,7 +37,10 @@
                 document.getElementById('2').innerHTML="talalat: "+data.talalat+"  süllyedt: "+data.sink;
             }
 
-        })
+        });
+        socket.on('hiba',function (data) {
+              window.location=data.url;
+        });
 
     </script>
   </body>
