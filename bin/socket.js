@@ -6,18 +6,19 @@ var user = require('../modules/users');
 var io = socket(www);
 var tomb = [];
 console.log('server is running...');
+var x={
+    ships:[
+        {a:[1,0], b:[3,0]},
+        {a:[0,0], b:[0,3]}
+    ]
+};
 
 io.on('connection', function(socket){
     console.log('a user connected');
     socket.nickname=user.nickname;
     socket.roomname=user.szobanev;
 
-   var x={
-        ships:[
-            {a:[1,0], b:[3,0]},
-            {a:[0,0], b:[0,3]}
-        ]
-    };
+
     socket.join(user.szobanev);
     socket.map=map.fuggveny(x);
     socket.hajok=ships(x);
@@ -27,6 +28,20 @@ io.on('connection', function(socket){
     user.roomname=null;
 
     socket.on('disconnect', function(){
+        var name =null;
+        for(var i in user.users){
+            if(user.users[i].nickname!=socket.nickname){
+                name=user.users[i].nickname;
+            }
+        }
+        tomb[name].map=map.fuggveny(x);
+        tomb[name].hajok=ships(x);
+
+        for(var kis in tomb[name].hajok){
+
+            console.log(tomb[name].hajok[kis]);
+        }
+
         delete tomb[socket.nickname];
         user.roomdelete(socket.roomname);
         console.log(socket.nickname+' disconnected');
