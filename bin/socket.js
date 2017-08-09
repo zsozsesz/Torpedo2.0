@@ -44,7 +44,7 @@ io.on('connection', function(socket){
                             name = user.users[i].nickname;
                         }
                     }
-
+                    tomb[name].ready=0;
                     tomb[name].map = map.fuggveny(x);
                     tomb[name].hajok = ships(x);
 
