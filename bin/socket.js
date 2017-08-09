@@ -28,24 +28,30 @@ io.on('connection', function(socket){
 
     socket.on('disconnect', function(){
         delete tomb[socket.nickname];
+        user.roomdelete(socket.roomname);
         console.log(socket.nickname+' disconnected');
     });
 
     socket.on('shoot',function (data) {
-        var nev;
+        var nev=null;
         for(var i in user.users)
         {
             if(user.users[i].nickname!=socket.nickname && user.users[i].roomname==socket.roomname){
                 nev=user.users[i].nickname;
             }
         }
-        tomb[nev].map[data.a][data.b].shoot=true;
-        var x =map.shoot(data,tomb[nev].hajok);
-        socket.emit('shootres',x);
-        console.log(nev+" hajoi:");
-        for(var kis in tomb[nev].hajok){
+       if(nev!=null){
+           tomb[nev].map[data.a][data.b].shoot=true;
+           var x =map.shoot(data,tomb[nev].hajok);
+           socket.emit('shootres',x);
+           console.log(nev+" hajoi:");
+           for(var kis in tomb[nev].hajok){
 
-            console.log(tomb[nev].hajok[kis]);
-        }
+               console.log(tomb[nev].hajok[kis]);
+           }
+       }
+        else{
+           socket.emit('shootres',{hiba:'Nincs ellenfeled'});
+       }
     })
 });

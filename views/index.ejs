@@ -33,7 +33,12 @@
             socket.emit('shoot',data)
         }
         socket.on('shootres',function (data) {
-            document.getElementById('2').innerHTML="talalat: "+data.talalat+"  süllyedt: "+data.sink;
+            if(data.hiba){
+                document.getElementById('2').innerHTML=data.hiba;
+            }else{
+                document.getElementById('2').innerHTML="talalat: "+data.talalat+"  süllyedt: "+data.sink;
+            }
+
         })
 
     </script>
