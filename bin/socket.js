@@ -6,15 +6,6 @@ var user = require('../modules/users');
 var io = socket(www);
 var tomb = [];
 console.log('server is running...');
-var x={
-    ships:[
-        {a:[1,0], b:[3,0]},
-        {a:[0,0], b:[0,3]}
-    ]
-};
-
-
-   // io.emit('error',{url:'/'});
 
 
 io.on('connection', function(socket){
@@ -25,8 +16,8 @@ io.on('connection', function(socket){
 
         socket.ready = user.rooms[socket.roomname].nickname.indexOf(socket.nickname);
         console.log(socket.ready);
-        socket.map = map.fuggveny(x);
-        socket.hajok = ships(x);
+        socket.map = map.fuggveny(user.users[socket.nickname].terkep);
+        socket.hajok = ships(user.users[socket.nickname].terkep);
         tomb[socket.nickname] = socket;
 
         user.nickname = null;
@@ -37,6 +28,7 @@ io.on('connection', function(socket){
         }
 
         socket.on('disconnect', function () {
+           var name=null;
             if (socket.nickname != null) {
                 if (user.rooms[socket.roomname].user == 2) {
                     for (var i in user.users) {
@@ -45,8 +37,8 @@ io.on('connection', function(socket){
                         }
                     }
                     tomb[name].ready=0;
-                    tomb[name].map = map.fuggveny(x);
-                    tomb[name].hajok = ships(x);
+                    tomb[name].map = map.fuggveny(user.users[name].terkep);
+                    tomb[name].hajok = ships(user.users[name].terkep);
 
                     for (var kis in tomb[name].hajok) {
 
@@ -92,5 +84,6 @@ io.on('connection', function(socket){
     }
     catch(err){
         socket.emit('hiba',{url:'/'});
+        console.log(err);
     }
 });

@@ -6,6 +6,12 @@ router.get('/', function(req, res, next) {
         res.redirect('/');
 });
 
+var map={
+    ships:[
+        {a:[1,0], b:[3,0]},
+        {a:[0,0], b:[0,3]}
+    ]
+};
 
 router.post('/', function(req, res, next) {
     var x = req.body;
@@ -19,9 +25,10 @@ router.post('/', function(req, res, next) {
     else{
         var y ={
             nickname: user.nickname,
-            roomname: user.szobanev
+            roomname: user.szobanev,
+            terkep: map
         };
-        user.users.push(y);
+        user.users[y.nickname]=y;
         res.redirect('/render');
     }
 });
