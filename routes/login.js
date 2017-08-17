@@ -8,8 +8,7 @@ router.get('/', function(req, res, next) {
 
 var map={
     ships:[
-        {a:[1,0], b:[3,0]},
-        {a:[0,0], b:[0,3]}
+        {a:[1,0], b:[3,0]}
     ]
 };
 

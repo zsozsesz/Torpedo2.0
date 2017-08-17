@@ -42,6 +42,19 @@
               window.location=data.url;
         });
 
+        socket.on('vege',function (data) {
+            if(data.vege=='WIN'){
+                document.getElementById('2').innerHTML='Győzelem';
+            }else{
+                document.getElementById('2').innerHTML='Vereség';
+            }
+
+        });
+        socket.on('talalat',function (data) {
+            document.getElementById('2').innerHTML="ellenfél lövése "+data.a+" , "+data.b;
+
+        });
+
     </script>
   </body>
 </html>

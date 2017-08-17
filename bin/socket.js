@@ -54,8 +54,8 @@ io.on('connection', function(socket){
         });
 
         socket.on('shoot', function (data) {
+            var nev = null;
             if (socket.ready == 0) {
-                var nev = null;
                 for (var i in user.users) {
                     if (user.users[i].nickname != socket.nickname && user.users[i].roomname == socket.roomname) {
                         nev = user.users[i].nickname;
@@ -67,11 +67,19 @@ io.on('connection', function(socket){
                     tomb[socket.nickname].ready = 1;
                     tomb[nev].ready = 0;
                     socket.emit('shootres', x);
+                    tomb[nev].emit('talalat',data);
                     console.log(nev + " hajoi:");
                     for (var kis in tomb[nev].hajok) {
 
                         console.log(tomb[nev].hajok[kis]);
                     }
+                    var z=map.gameend(tomb[nev].hajok);
+
+                    if(z.end==true){
+                        socket.emit('vege',{vege:'WIN'});
+                        tomb[nev].emit('vege',{vege:'LOOSE'})
+                    }
+
                 }
                 else {
                     socket.emit('shootres', {hiba: 'Nincs ellenfeled'});
@@ -80,6 +88,7 @@ io.on('connection', function(socket){
             else {
                 socket.emit('shootres', {hiba: 'Nem te jössz'});
             }
+
         });
     }
     catch(err){

@@ -57,3 +57,17 @@ module.exports.shoot = function (loves,hajok) {
         sink:false
     }
 }
+
+module.exports.gameend=function (hajok) {
+    for(var i in hajok){
+        if(hajok[i][hajok[i].length-1].life!=0){
+            return {
+                end : false
+            }
+        }
+    }
+    return{
+        end:true
+    }
+
+}
